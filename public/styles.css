@@ -1,0 +1,52 @@
+/*
+** For Clock
+*/
+
+.clock {
+    width: 480px;
+    text-align: center;
+    margin: 10px auto;
+}
+
+.cell {
+/*   margin: 1px; */
+    float: left;
+    width: 20px;
+    height: 20px;
+/*   border-radius: 10%; */
+}
+
+.row {
+    margin: 0;
+    width: 70px;
+}
+
+.switch {
+    background-color: green;
+}
+
+.separator {
+    float: left;
+    width: 30px;
+}
+
+.digit {
+    float: left;
+}
+
+
+/*
+** For SpotifyClient
+*/
+form {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+form input {
+    margin-left: 5px;
+    margin-right: 5px;
+} 
+.img-rounded {
+    margin: 5px;
+}
