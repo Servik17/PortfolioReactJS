@@ -31,7 +31,7 @@ export default class Spotify extends React.Component {
     //Функция записи вводимогоисполнителя
     changed(event) {
         sessionStorage.setItem('searchVal', event.target.value);
-        
+
         this.setState({
             search: event.target.value,
             err: undefined
@@ -124,7 +124,7 @@ export default class Spotify extends React.Component {
                                id="search" 
                                placeholder="Исполнитель" 
                                onChange={ this.changed }
-                               value={ sessionStorage.getItem('searchVal') || '' }>
+                               defaultValue={ sessionStorage.getItem('searchVal') || '' }>
                         </input>
                     </div>
                     <button type="submit" className="btn btn-default">
