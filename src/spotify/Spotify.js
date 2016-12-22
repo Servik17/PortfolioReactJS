@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ArtistsList from './ArtistsList';
 import axios from 'axios';      //Билиотека для AJAX запросов
 
-export default class Spotify extends React.Component {
+export default class Spotify extends Component {
     constructor(props) {
         super(props);
         
@@ -14,14 +14,16 @@ export default class Spotify extends React.Component {
         
         this.getArtists = this.getArtists.bind(this);
         this.submited = this.submited.bind(this);
-        this.changed = this.changed.bind(this);
+        this.handleChanged = this.handleChanged.bind(this);
         this.artistsOrErr = this.artistsOrErr.bind(this);
     }
     
     //Функция получения данных из sessionStorage 
     getArtists() {
-        if (sessionStorage.getItem('artists')) {
-            let artists = JSON.parse(sessionStorage.getItem('artists'));
+        let artistsInStorage = sessionStorage.getItem('artists');
+
+        if (artistsInStorage) {
+            let artists = JSON.parse(artistsInStorage);            
             return artists;
         } else {
             return undefined;
@@ -29,9 +31,7 @@ export default class Spotify extends React.Component {
     }
     
     //Функция записи вводимогоисполнителя
-    changed(event) {
-        sessionStorage.setItem('searchVal', event.target.value);
-
+    handleChanged(event) {        
         this.setState({
             search: event.target.value,
             err: undefined
@@ -39,9 +39,12 @@ export default class Spotify extends React.Component {
     }
     
     //Функция получения искомого исполнителя через AJAX запрос и запись в состояние
-    submited(event) {
-        event.preventDefault();
-        let query = this.state.search;      //Запрос введеный пользователем
+    submited(event) {        
+        event.preventDefault();  
+              
+        sessionStorage.setItem('searchVal', this.state.search);
+    
+        let query = this.state.search;                 //Запрос введеный пользователем
         let url = 'https://api.spotify.com/v1/search'; //URL запроса
 
         if (query.length === 0) {           //Если поле поиска пустое
@@ -90,7 +93,7 @@ export default class Spotify extends React.Component {
                     });
                 }
             });
-        }        
+        }
     }
     
     //Функция выбора отображения списка исполнителей либо ошибки
@@ -123,7 +126,7 @@ export default class Spotify extends React.Component {
                         <input className="form-control" 
                                id="search" 
                                placeholder="Исполнитель" 
-                               onChange={ this.changed }
+                               onChange={ this.handleChanged }
                                defaultValue={ sessionStorage.getItem('searchVal') || '' }>
                         </input>
                     </div>

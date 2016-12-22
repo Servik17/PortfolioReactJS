@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Cell from './Cell'
 
-export default class Separator extends Component {
+class Separator extends Component {
     render() {
         return (
             <div className="separator">
@@ -14,3 +14,5 @@ export default class Separator extends Component {
         );
     }
 }
+
+export default Separator;

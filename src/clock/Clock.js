@@ -5,7 +5,7 @@ import Separator from './Separator';
 export default class Clock extends Component {
     constructor(props) {
         super(props);
-
+        
         const now = new Date();
 
         this.state = {
@@ -41,14 +41,16 @@ export default class Clock extends Component {
     }
 
     render() {
+        const { hours, minutes, seconds } = this.state;
+
         return (
             <div className="clock">
                 <h1>Clock at ReactJS</h1>
-                <Digits digit={Number(this.state.hours[0])} num={Number(this.state.hours[1])} />
+                <Digits digit={Number(hours[0])} num={Number(hours[1])} />
                 <Separator />
-                <Digits digit={Number(this.state.minutes[0])} num={Number(this.state.minutes[1])} />
+                <Digits digit={Number(minutes[0])} num={Number(minutes[1])} />
                 <Separator />
-                <Digits digit={Number(this.state.seconds[0])} num={Number(this.state.seconds[1])} />
+                <Digits digit={Number(seconds[0])} num={Number(seconds[1])} />
             </div>
         );
     }

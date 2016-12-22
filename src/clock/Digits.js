@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 import Digit from './Digit';
 
-export default class Digits extends Component {
+class Digits extends Component {
+
     render() {
+        const { digit, num } = this.props;
+
         return (
             <div>
-                <Digit digit={this.props.digit} />
-                <Digit digit={this.props.num} />
+                <Digit digit={digit} />
+                <Digit digit={num} />
             </div>
         );
     }
 }
+
+Digits.propTypes = {
+    digit: React.PropTypes.number,
+    num: React.PropTypes.number
+}
+
+export default Digits;
