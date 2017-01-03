@@ -7,9 +7,9 @@ export default class Spotify extends Component {
         super(props);
         
         this.state = {
-            search: '',                     //Данные из поля поиска
-            artistsList: this.getArtists(), //Список исполнителей из sessionStorage
-            err: undefined                  //Ошибки, возникающие в процессе
+            search: sessionStorage.getItem('searchVal') || '',  //Данные из поля поиска
+            artistsList: this.getArtists(),                     //Список исполнителей из sessionStorage
+            err: undefined                                      //Ошибки, возникающие в процессе
         };
         
         this.getArtists = this.getArtists.bind(this);
@@ -31,18 +31,20 @@ export default class Spotify extends Component {
     }
     
     //Функция записи вводимогоисполнителя
-    handleChanged(event) {        
+    handleChanged(event) {
+        const searchValue = event.target.value;
+
+        sessionStorage.setItem('searchVal', searchValue);
+
         this.setState({
-            search: event.target.value,
+            search: searchValue,
             err: undefined
         });
     }
     
     //Функция получения искомого исполнителя через AJAX запрос и запись в состояние
     submited(event) {        
-        event.preventDefault();  
-              
-        sessionStorage.setItem('searchVal', this.state.search);
+        event.preventDefault();
     
         let query = this.state.search;                 //Запрос введеный пользователем
         let url = 'https://api.spotify.com/v1/search'; //URL запроса
@@ -98,19 +100,21 @@ export default class Spotify extends Component {
     
     //Функция выбора отображения списка исполнителей либо ошибки
     artistsOrErr(state) {
+        const { err, artistsList } = state;
+
         //Поумолчанию ничего не будем отображать
         let artists = <div></div>; 
         
         //Выбор отображения (список найденых исполнителей либо ошибка)
         //Если в состоянии присутствует err будем отображать текст ошибки
-        if (state.err) {  
+        if (err) {  
             artists = <div className="alert alert-danger">
-                        <strong>{ state.err }</strong>
+                        <strong>{ err }</strong>
                       </div>;
         //Если в состоянии присутствует artistsList будем отображать список
         //передаем в компонент artistsList
-        } else if (state.artistsList) {  
-            artists = <ArtistsList artists={ state.artistsList }/>;
+        } else if (artistsList) {  
+            artists = <ArtistsList artists={ artistsList }/>;
         }
         
         return artists;
@@ -124,10 +128,10 @@ export default class Spotify extends Component {
                     <div className="form-group">
                         <label htmlFor="search">Найти:</label>
                         <input className="form-control" 
-                               id="search" 
+                               id="search"
                                placeholder="Исполнитель" 
                                onChange={ this.handleChanged }
-                               defaultValue={ sessionStorage.getItem('searchVal') || '' }>
+                               defaultValue={ this.state.search }>
                         </input>
                     </div>
                     <button type="submit" className="btn btn-default">

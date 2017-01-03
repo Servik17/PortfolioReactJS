@@ -1,4 +1,6 @@
 # dependencies
+.idea
+.vscode
 node_modules
 typings
 
